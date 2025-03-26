@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 workflow {
-    stress(2000000000)
+    stress(10000000000)
 }
 
 process stress {
@@ -16,6 +16,6 @@ process stress {
 
     script:
     """
-    stress -m 1 --vm-bytes ${bytes} -t 5
+    stress -m 1 --vm-bytes ${bytes} -t 20
     """
 }
