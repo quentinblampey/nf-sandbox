@@ -8,14 +8,14 @@ process stress {
     label "process_single"
 
     container "${workflow.containerEngine == 'apptainer' && !task.ext.singularity_pull_docker_container
-        ? 'docker://nmeyerhans/stress:latest'
-        : 'docker.io/nmeyerhans/stress:latest'}"
+        ? 'docker://quentinblampey/sopa:2.0.3'
+        : 'docker.io/quentinblampey/sopa:2.0.3'}"
 
     input:
     val bytes
 
     script:
     """
-    stress -m 1 --vm-bytes ${bytes} -t 20
+    python -c "import numpy as np; np.zeros(${bytes}, dtype=np.uint8)"
     """
 }
