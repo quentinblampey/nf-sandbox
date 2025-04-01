@@ -1,10 +1,10 @@
 #!/usr/bin/env nextflow
 
 workflow {
-    echo(params.file)
+    test_cat(params.file)
 }
 
-process echo {
+process test_cat {
     publishDir params.outdir, mode: 'copy'
 
     label "process_low"
