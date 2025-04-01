@@ -15,9 +15,7 @@ process echo {
 
     label "process_low"
 
-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'https://depot.galaxyproject.org/singularity/fastqc:0.12.1--hdfd78af_0'
-        : 'biocontainers/fastqc:0.12.1--hdfd78af_0'}"
+    container "nf-core/modules/spaceranger:d71611e316a8614b"
 
     input:
     val file
