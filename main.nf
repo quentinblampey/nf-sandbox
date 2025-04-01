@@ -15,9 +15,9 @@ process echo {
 
     label "process_low"
 
-    container "${workflow.containerEngine == 'apptainer' && !task.ext.singularity_pull_docker_container
-        ? 'docker://quentinblampey/sopa:2.0.3'
-        : 'docker.io/quentinblampey/sopa:2.0.3'}"
+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+        ? 'https://depot.galaxyproject.org/singularity/fastqc:0.12.1--hdfd78af_0'
+        : 'biocontainers/fastqc:0.12.1--hdfd78af_0'}"
 
     input:
     val file
