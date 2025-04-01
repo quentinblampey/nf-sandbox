@@ -1,21 +1,65 @@
 #!/usr/bin/env nextflow
 
 workflow {
-    stress(10000000000)
+    // def meta = Channel.of([id: 1, data_dir: "1_spaceranger"], [id: 2, data_dir: "2_spaceranger"], [id: 3, data_dir: "3_spaceranger"])
+
+    // (meta, files) = SPACERANGER_COUNT(meta)
+
+    // test(meta, files)
+
+    echo(params.file, [])
 }
 
-process stress {
-    label "process_medium"
+process echo {
+    publishDir params.outdir, mode: 'copy'
+
+    label "process_low"
 
     container "${workflow.containerEngine == 'apptainer' && !task.ext.singularity_pull_docker_container
         ? 'docker://quentinblampey/sopa:2.0.3'
         : 'docker.io/quentinblampey/sopa:2.0.3'}"
 
     input:
-    val bytes
+    val file
+    val paths
+
+    output:
+    path "expe"
 
     script:
     """
-    python -c "import numpy as np; np.zeros(${bytes}, dtype=np.uint8)"
+    cat ${file} > expe
+    """
+}
+
+process SPACERANGER_COUNT {
+    input:
+    val meta
+
+    output:
+    val meta
+    path "outs/a*"
+
+    script:
+    """
+    mkdir outs
+    echo "hello world1 ${meta.id}" > outs/a1
+    echo "hello world2 ${meta.id}" > outs/a2
+    """
+}
+
+process test {
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+    val meta
+    path files
+
+    output:
+    path "b*"
+
+    script:
+    """
+    cat a1 > b_${meta.id}
     """
 }
